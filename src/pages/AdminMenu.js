@@ -10,12 +10,15 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import AdminHome from "../component/AdminHome";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    height: "100vh",
+    backgroundColor: "black",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -167,6 +170,7 @@ function AdminMenu(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <AdminHome />
       </main>
     </div>
   );
