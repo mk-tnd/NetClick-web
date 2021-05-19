@@ -6,7 +6,8 @@ import Fade from '@material-ui/core/Fade';
 import Input from '@material-ui/core/Input'
 import SelectorFitnessLevel from './SelectorFitnessLevel'
 import axios from '../config/axios'
-import service from '../service/localStorage'
+import Loading from '../component/Loading'
+import { useMyContext } from '../context/MyContext'
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -22,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 function ProfileModal(props) {
 
   const { open, setOpen, getProfile, profile } = props
 
-
+  const { loading, setLoading } = useMyContext()
 
   const [state, setState] = useState({
     profileType: '',
@@ -57,31 +59,39 @@ function ProfileModal(props) {
   }
 
   async function submitEdit() {
+    setLoading(true)
+    try {
+      const { profileName, file, profileType } = input
+      const formData = new FormData()
+      let res;
+      if (file) {
+        formData.append('image', file)
+        formData.append('profileName', profileName)
+        formData.append('profileType', profileType)
+        open.mode === 'Edit Profile' ? res = await axios.put(`/profile/editProfile/` + open?.id, formData) : res = await axios.post(`profile/newProfile`, formData)
+        console.log(res)
+      } else {
+        open.mode === 'Edit Profile' ? res = await axios.put(`/profile/editProfile/` + open?.id, { profileName, profileType }) : res = await axios.post(`profile/newProfile`, { profileName, profileType })
+        console.log(res)
+      }
 
-    const { profileName, file, profileType } = input
-    const formData = new FormData()
-    let res;
-    if (file) {
-      formData.append('image', file)
-      formData.append('profileName', profileName)
-      formData.append('profileType', profileType)
-      open.mode === 'Edit Profile' ? res = await axios.put(`/profile/editProfile/` + open?.id, formData) : res = await axios.post(`profile/newProfile`, formData)
-      console.log(res)
-    } else {
-      open.mode === 'Edit Profile' ? res = await axios.put(`/profile/editProfile/` + open?.id, { profileName, profileType }) : res = await axios.post(`profile/newProfile`, { profileName, profileType })
-      console.log(res)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      getProfile()
+      setInput({ profileName: "" })
+      setState({ profileType: '' })
+      setOpen(false)
+      setLoading(false)
     }
-    getProfile()
-    setInput({ profileName: "" })
-    setState({ profileType: '' })
-    setOpen(false)
+
   }
+
   function cancelEdit() {
     setOpen(false)
     setInput({ profileName: "" })
     setState({ profileType: '' })
   }
-
   async function deleteProfile() {
     const isConfirm = window.confirm('Do you confirm to delete this profile?')
     if (isConfirm) {
@@ -117,13 +127,19 @@ function ProfileModal(props) {
                 profile?.filter((item) => item.id == open.id)?.map((item) => {
                   return (
                     <>
+
                       <div>
                         <img style={{
                           width: '90px', height: '80px',
                           objectFit: "cover",
                           objectPosition: "50% 50%"
                         }} src={item?.profilePicture || "https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
-
+                        {
+                          loading && (
+                            <div class='mt-5 ml-6'>
+                              <Loading color='secondary' />
+                            </div>)
+                        }
                       </div>
                       <div className='flex flex-col ml-3'>
                         <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
@@ -132,10 +148,11 @@ function ProfileModal(props) {
                           <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
                         </div>
                         <div className='mt-3'>
-                          <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-600 hover:text-white'>Record</button>
+                          <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-500 hover:text-white'>Record</button>
                           <button onClick={cancelEdit} className='ml-4 mr-4 text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Cancel</button>
                           <button onClick={deleteProfile} className='text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Delete</button>
                         </div>
+
                       </div>
                     </>
                   )
@@ -150,7 +167,12 @@ function ProfileModal(props) {
                         objectFit: "cover",
                         objectPosition: "50% 50%"
                       }} src={"https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
-
+                      {
+                        loading && (
+                          <div class='mt-5 ml-6'>
+                            <Loading color='secondary' />
+                          </div>)
+                      }
                     </div>
                     <div className='flex flex-col ml-3'>
                       <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
@@ -159,7 +181,7 @@ function ProfileModal(props) {
                         <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
                       </div>
                       <div className='mt-3'>
-                        <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-600 hover:text-white'>Record</button>
+                        <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-500 hover:text-white'>Record</button>
                         <button onClick={cancelEdit} className='ml-4 mr-4 text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Cancel</button>
                       </div>
                     </div>
@@ -168,6 +190,7 @@ function ProfileModal(props) {
               }
             </div>
           </div>
+
         </Fade>
       </Modal >
     </div >

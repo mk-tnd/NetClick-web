@@ -3,10 +3,13 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 // import Auth from "./pages/Auth";
 // import { useContext } from "react";
 // import { AuthContext } from "./contexts/AuthContextProvider";
+import { useMyContext } from './context/MyContext'
 import ProfilePage from './pages/ProfilePage'
+import LoginPage from './pages/LoginPage'
 function App() {
   // const { isAuth } = useContext(AuthContext);
-  const isAuth = true;
+  const { state } = useMyContext()
+  // const isAuth = true;
   const privateRoutes = [
     // {
     //   path: "/",
@@ -16,6 +19,7 @@ function App() {
       path: '/profile',
       component: ProfilePage
     }
+
   ];
 
   const publicRoutes = [
@@ -23,19 +27,20 @@ function App() {
     //   path: "/",
     //   component: Auth,
     // },
-    // {
-    //   path: '/profile',
-    //   component: ProfilePage
-    // }
+    {
+      path: '/',
+      component: LoginPage
+    }
   ];
+  console.log(state)
   return (
     <BrowserRouter>
       <Switch>
-        {isAuth &&
+        {state.isAuthen &&
           privateRoutes.map((el, index) => (
             <Route key={index} exact path={el.path} component={el.component} />
           ))}
-        {!isAuth &&
+        {!state.isAuthen &&
           publicRoutes.map((el, index) => (
             <Route key={index} exact path={el.path} component={el.component} />
           ))}

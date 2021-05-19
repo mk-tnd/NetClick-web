@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Fade from '@material-ui/core/Fade';
 import ProfileModal from '../component/ProfileModal'
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import Head from '../component/Head'
 
 function ProfilePage() {
   const [open, setOpen] = useState({
@@ -14,7 +15,8 @@ function ProfilePage() {
   });
   const [profile, setProfile] = useState()
   const [edit, setEdit] = useState(false)
-  const { setToken, setUser } = service
+
+
   async function getProfile() {
     const respond = await axios.get(`/profile`)
     const { data: { data } } = respond
@@ -22,8 +24,6 @@ function ProfilePage() {
   }
 
   useEffect(async () => {
-    setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJwYWxtQGVtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoiYWN0aXZlIiwiaWF0IjoxNjIxMjY3MDE5LCJleHAiOjE2MjM4NTkwMTl9.m-RIpl8PDQHywp8yTYldGEFTCv50KoguG5_2e48KpDI')
-    setUser(2)
     getProfile()
 
   }, [])
@@ -39,9 +39,7 @@ function ProfilePage() {
   return (
     <div>
       <div className="App">
-        <div className="text-red-500 h-1/10 text-3xl pt-6 pl-8 font-medium italic " >
-          <h1>NETCLICK</h1>
-        </div>
+        <Head />
         <div>
           {
             edit ? (
@@ -74,9 +72,9 @@ function ProfilePage() {
                           {
                             edit && (
                               <>
-                                <div onClick={(e) => handleOpen(e)} id={item.id} title="Edit Profile" style={{ width: '200px', height: '200px', position: 'absolute', zIndex: '1', color: 'white' }} className={`bg-gray-800 opacity-60 flex justify-center items-center`}>
+                                <div onClick={(e) => handleOpen(e)} id={item.id} title="Edit Profile" style={{ width: '200px', height: '200px', position: 'absolute', zIndex: '1', color: 'white' }} className={`bg-gray-900 opacity-60 flex justify-center items-center`}>
                                   <div>
-                                    <button onClick={(e) => handleOpen(e)} title="Edit Profile" id={item.id} className="border-white border-2  hover:text-black-500 hover:border-2 hover:border-black focus:outline-none">Edit</button>
+                                    <button onClick={(e) => handleOpen(e)} title="Edit Profile" id={item.id} className="border-white border-2 p-1 hover:text-black-500 hover:border-2 hover:border-black focus:outline-none">Edit</button>
                                   </div>
                                 </div>
 
@@ -132,7 +130,7 @@ function ProfilePage() {
           edit ? (
             <Fade in={edit}>
               <div className='text-center pt-10'>
-                <button onClick={() => setEdit(false)} class='bg-white text-black text-2xl p-4  hover:bg-red-600 hover:text-white'>Done</button>
+                <button onClick={() => setEdit(false)} class='bg-white text-black text-2xl p-4  hover:bg-red-500 hover:text-white'>Done</button>
               </div>
             </Fade>
           ) : (
