@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 // import Auth from "./pages/Auth";
 // import { useContext } from "react";
 // import { AuthContext } from "./contexts/AuthContextProvider";
-
+import ProfilePage from './pages/ProfilePage'
 function App() {
   // const { isAuth } = useContext(AuthContext);
   const isAuth = true;
@@ -12,6 +12,10 @@ function App() {
     //   path: "/",
     //   component: Home,
     // },
+    {
+      path: '/profile',
+      component: ProfilePage
+    }
   ];
 
   const publicRoutes = [
@@ -19,6 +23,10 @@ function App() {
     //   path: "/",
     //   component: Auth,
     // },
+    // {
+    //   path: '/profile',
+    //   component: ProfilePage
+    // }
   ];
   return (
     <BrowserRouter>
