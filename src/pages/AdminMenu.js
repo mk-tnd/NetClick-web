@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import Avatar from "@material-ui/core/Avatar";
@@ -11,6 +11,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AdminHome from "../component/AdminHome";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddVideo from "../component/AddVideo";
 
 const drawerWidth = 300;
 
@@ -41,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -57,15 +58,31 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 function AdminMenu(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { window } = props;
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -109,6 +126,15 @@ function AdminMenu(props) {
           </Typography>
           <div>
             <IconButton
+              onClick={handleOpenModal}
+              className="focus:outline-none"
+              aria-controls="menu-appbar"
+              color="inherit"
+            >
+              <AddCircleIcon />
+            </IconButton>
+            <IconButton
+              className="focus:outline-none"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -172,6 +198,7 @@ function AdminMenu(props) {
         <div className={classes.toolbar} />
         <AdminHome />
       </main>
+      <AddVideo openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 }
