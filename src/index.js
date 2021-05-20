@@ -5,11 +5,13 @@ import App from "./App";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./utils/customize";
 import reportWebVitals from "./reportWebVitals";
-
+import { ContextProvider } from './context/MyContext'
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <ContextProvider>
+        <App />
+      </ContextProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
