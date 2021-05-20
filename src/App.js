@@ -1,21 +1,17 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-// import Home from "./pages/Home";
-// import Auth from "./pages/Auth";
-// import { useContext } from "react";
-// import { AuthContext } from "./contexts/AuthContextProvider";
 import { useMyContext } from "./context/MyContext";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import AdminMenu from "./pages/AdminMenu";
 function App() {
-  // const { isAuth } = useContext(AuthContext);
   const { state } = useMyContext();
-  // const isAuth = true;
+
   const privateRoutes = [
-    // {
-    //   path: "/",
-    //   component: Home,
-    // },
+    {
+      path: "/admin",
+      component: AdminMenu,
+    },
     {
       path: "/profile",
       component: ProfilePage,
