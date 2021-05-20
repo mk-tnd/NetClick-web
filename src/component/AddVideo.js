@@ -6,9 +6,8 @@ import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-// import axios from "../../config/axios";
+import axios from "axios";
 
 function AddVideo(props) {
   const useStyles = makeStyles((theme) => ({
@@ -36,27 +35,52 @@ function AddVideo(props) {
     name: "",
     vname: "",
     description: "",
-    categoryId: "",
   });
+  const [category, setCategory] = useState("");
+
+  const cat = [
+    "Action",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Mystery",
+    "Romance",
+    "Thriller",
+  ];
 
   const handleContentChange = (e) => {
     const { name, value } = e.target;
     setContent((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
+  };
+
   const handleAddPost = async (e) => {
-    // const { name, vname, description, categoryId } = content;
-    // e.preventDefault();
-    // await axios.post("/post", { name, vname, description, categoryId });
-    // props.setOpenModal(false);
+    const { name, vname, description } = content;
+    const categoryId = cat.indexOf(category) + 1;
+    e.preventDefault();
+    await axios.post("/video/register", {
+      thumbnailS: vname.split("=")[1],
+      name,
+      vname,
+      description,
+      categoryId,
+    });
+    props.setOpenModal(false);
+    setContent({
+      name: "",
+      vname: "",
+      description: "",
+    });
+    setCategory("");
   };
 
   const handleCloseModal = () => {
     props.setOpenModal(false);
   };
-
-  const options = ["one", "two", "three"];
-  const defaultOption = options[0].id;
 
   return (
     <>
@@ -121,11 +145,15 @@ function AddVideo(props) {
                         value={content.description}
                       />
                     </Grid>
-                    <Grid className="cursor-pointer" item xs={12}>
-                      <Dropdown
-                        options={options}
-                        value={defaultOption}
-                        placeholder="Select Category"
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
+                        fullWidth
+                        id="category"
+                        label="Category"
+                        name="category"
+                        onChange={handleCategory}
+                        value={category}
                       />
                     </Grid>
                   </Grid>
