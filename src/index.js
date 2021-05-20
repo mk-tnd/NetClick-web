@@ -7,14 +7,17 @@ import theme from "./utils/customize";
 import reportWebVitals from "./reportWebVitals";
 import VideoContextProvider from "./context/VideoContextProvider";
 import { ContextProvider } from "./context/MyContext";
+import UserContextProvider from "./context/userContextProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <VideoContextProvider>
-        <ContextProvider>
-          <App />
-        </ContextProvider>
+        <UserContextProvider>
+          <ContextProvider>
+            <App />
+          </ContextProvider>
+        </UserContextProvider>
       </VideoContextProvider>
     </ThemeProvider>
   </React.StrictMode>,
