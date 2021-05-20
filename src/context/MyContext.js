@@ -30,7 +30,8 @@ function checkAuthenByReducer(state, action) {
 function ContextProvider(props) {
   const [state, dispatch] = useReducer(checkAuthenByReducer, INITIAL_STATE)
   const [loading, setLoading] = useState(false)
-  const provide = { state, dispatch, loading, setLoading }
+  const [openDialog, setOpenDialog] = useState(false)
+  const provide = { state, dispatch, loading, setLoading, openDialog, setOpenDialog }
 
   return (
     <myContext.Provider value={provide}>{props.children}</myContext.Provider>

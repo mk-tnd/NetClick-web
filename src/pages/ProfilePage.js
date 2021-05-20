@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../config/axios'
-import service from '../service/localStorage'
-import EditIcon from '@material-ui/icons/Edit';
 import Fade from '@material-ui/core/Fade';
 import ProfileModal from '../component/ProfileModal'
-import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import Head from '../component/Head'
-
+import AlertDialog from '../component/Dialog'
 function ProfilePage() {
   const [open, setOpen] = useState({
     status: false,
@@ -115,7 +112,7 @@ function ProfilePage() {
               <div>
                 <div title='Add Profile' style={{ width: '200px', height: '200px' }} className='flex justify-center items-center' >
                   <div>
-                    <button title='Add Profile' onClick={(e) => handleOpen(e)} style={{ width: '200px', height: '200px' }} className='hover:bg-white text-7xl'>+</button>
+                    <button title='Add Profile' onClick={(e) => handleOpen(e)} style={{ width: '200px', height: '200px' }} className='hover:bg-white text-gray-400 text-7xl'>+</button>
                   </div>
                 </div>
                 <div>

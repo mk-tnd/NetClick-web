@@ -8,6 +8,7 @@ import SelectorFitnessLevel from './SelectorFitnessLevel'
 import axios from '../config/axios'
 import Loading from '../component/Loading'
 import { useMyContext } from '../context/MyContext'
+import AlertDialog from './Dialog';
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -28,7 +29,7 @@ function ProfileModal(props) {
 
   const { open, setOpen, getProfile, profile } = props
 
-  const { loading, setLoading } = useMyContext()
+  const { loading, setLoading, setOpenDialog } = useMyContext()
 
   const [state, setState] = useState({
     profileType: '',
@@ -93,15 +94,12 @@ function ProfileModal(props) {
     setState({ profileType: '' })
   }
   async function deleteProfile() {
-    const isConfirm = window.confirm('Do you confirm to delete this profile?')
-    if (isConfirm) {
-      const res = await axios.put(`/profile/editProfile/` + open?.id, { profileStatus: 'Deleted' })
-      console.log(res)
-      getProfile()
-      setOpen(false)
-    } else {
-      return
-    }
+    setOpenDialog(true)
+
+    //
+    // } else {
+    //   return
+    // }
   }
   return (
     <div>
@@ -152,7 +150,7 @@ function ProfileModal(props) {
                           <button onClick={cancelEdit} className='ml-4 mr-4 text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Cancel</button>
                           <button onClick={deleteProfile} className='text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Delete</button>
                         </div>
-
+                        <AlertDialog open={open} setOpen={setOpen} getProfile={getProfile} />
                       </div>
                     </>
                   )
@@ -173,6 +171,7 @@ function ProfileModal(props) {
                             <Loading color='secondary' />
                           </div>)
                       }
+
                     </div>
                     <div className='flex flex-col ml-3'>
                       <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />

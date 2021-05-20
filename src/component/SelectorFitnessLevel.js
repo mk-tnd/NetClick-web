@@ -3,8 +3,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-
-
 function SelectorFitnessLevel(props) {
 
   const { setInput, input, state, setState } = props
@@ -19,7 +17,7 @@ function SelectorFitnessLevel(props) {
 
   return (
     <div >
-      <FormControl variant="outlined">
+      <FormControl variant="outlined" >
         <InputLabel htmlFor="outlined-age-native-simple">Fitness Level</InputLabel>
         <Select
           native
