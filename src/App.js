@@ -32,7 +32,7 @@ function App() {
       component: LoginPage
     }
   ];
-  console.log(state)
+
   return (
     <BrowserRouter>
       <Switch>
