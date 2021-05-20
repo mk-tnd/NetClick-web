@@ -5,13 +5,20 @@ import App from "./App";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./utils/customize";
 import reportWebVitals from "./reportWebVitals";
-import { ContextProvider } from './context/MyContext'
+import VideoContextProvider from "./context/VideoContextProvider";
+import { ContextProvider } from "./context/MyContext";
+import UserContextProvider from "./context/userContextProvider";
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <ContextProvider>
-        <App />
-      </ContextProvider>
+      <VideoContextProvider>
+        <UserContextProvider>
+          <ContextProvider>
+            <App />
+          </ContextProvider>
+        </UserContextProvider>
+      </VideoContextProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
