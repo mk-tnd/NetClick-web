@@ -1,5 +1,6 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import AdminMenu from "./pages/AdminMenu";
+// import Home from "./pages/Home";
 // import Auth from "./pages/Auth";
 // import { useContext } from "react";
 // import { AuthContext } from "./contexts/AuthContextProvider";
@@ -12,6 +13,10 @@ function App() {
       path: "/",
       component: AdminMenu,
     },
+    // {
+    //   path: "/",
+    //   component: Home,
+    // },
   ];
 
   const publicRoutes = [
