@@ -6,12 +6,15 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./utils/customize";
 import reportWebVitals from "./reportWebVitals";
 import VideoContextProvider from "./context/VideoContextProvider";
+import { ContextProvider } from "./context/MyContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <VideoContextProvider>
-        <App />
+        <ContextProvider>
+          <App />
+        </ContextProvider>
       </VideoContextProvider>
     </ThemeProvider>
   </React.StrictMode>,
