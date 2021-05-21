@@ -124,7 +124,7 @@ function AdminMenu(props) {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`/user/me/:${1}`);
+        const res = await axios.get(`/user/me`);
         console.log(res);
         if (user) setUser(res.data.user);
       } catch (err) {
