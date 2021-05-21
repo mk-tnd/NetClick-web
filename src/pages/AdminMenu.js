@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import Avatar from "@material-ui/core/Avatar";
@@ -13,6 +13,8 @@ import Menu from "@material-ui/core/Menu";
 import AdminHome from "../component/AdminHome";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddVideo from "../component/AddVideo";
+import { UserContext } from "../context/userContextProvider";
+import axios from "../config/axios";
 
 const drawerWidth = 300;
 
@@ -79,6 +81,8 @@ function AdminMenu(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [error, setError] = useState("");
+  const { user, setUser } = useContext(UserContext);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -116,6 +120,19 @@ function AdminMenu(props) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await axios.get(`/user/me`);
+        console.log(res);
+        if (user) setUser(res.data.user);
+      } catch (err) {
+        setError(err.response.data.message);
+      }
+    };
+    getUser();
+  }, []);
 
   return (
     <div className={classes.root}>
