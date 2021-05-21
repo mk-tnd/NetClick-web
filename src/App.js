@@ -4,7 +4,7 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminMenu from "./pages/AdminMenu";
-
+import testPage from './pages/testPage'
 function App() {
   const { state } = useMyContext();
 
@@ -17,6 +17,10 @@ function App() {
       path: "/profile",
       component: ProfilePage,
     },
+    {
+      path: '/test',
+      component: testPage
+    }
   ];
 
   const publicRoutes = [
@@ -28,6 +32,10 @@ function App() {
       path: "/register",
       component: RegisterPage,
     },
+    {
+      path: '/test',
+      component: testPage
+    }
   ];
 
   return (
