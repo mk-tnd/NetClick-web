@@ -13,6 +13,7 @@ export default function AlertDialog(props) {
   const { openDialog, setOpenDialog } = useMyContext()
 
   const handleClose = async (event) => {
+
     const { outerText } = event.target
     if (outerText === 'AGREE') {
       console.log(open)
@@ -37,7 +38,7 @@ export default function AlertDialog(props) {
           <Button id="Agree " onClick={handleClose} color="secondary">
             Agree
           </Button>
-          <Button id="DisAgree" onClick={handleClose} color="secondary" autoFocus>
+          <Button id="DisAgree" onClick={handleClose} color="secondary">
             Disagree
           </Button>
         </DialogActions>

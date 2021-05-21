@@ -3,14 +3,14 @@ import axios from '../config/axios'
 import Fade from '@material-ui/core/Fade';
 import ProfileModal from '../component/ProfileModal'
 import Head from '../component/Head'
-import AlertDialog from '../component/Dialog'
+import { useMyContext } from '../context/MyContext'
 function ProfilePage() {
   const [open, setOpen] = useState({
     status: false,
     mode: '',
     id: ''
   });
-  const [profile, setProfile] = useState()
+  const { profile, setProfile } = useMyContext()
   const [edit, setEdit] = useState(false)
 
 
@@ -78,13 +78,24 @@ function ProfilePage() {
 
                               </>)
                           }
-                          <img style={{ width: '200px', height: '200px', position: 'relative', }} src={item.profilePicture || "https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
+                          <img style={{
+                            width: '200px',
+                            height: '200px',
+                            position: 'relative',
+                            objectFit: "cover",
+                            objectPosition: "50% 50%"
+                          }} src={item.profilePicture || "https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"} />
 
                         </div>
                       </Fade>
                     ) : (
                       <div>
-                        <img style={{ width: '200px', height: '200px' }} src={item.profilePicture || "https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
+                        <img style={{
+                          width: '200px',
+                          height: '200px',
+                          objectFit: "cover",
+                          objectPosition: "50% 50%"
+                        }} src={item.profilePicture || "https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"} />
                       </div>
                     )
                   }

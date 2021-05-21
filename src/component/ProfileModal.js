@@ -132,10 +132,10 @@ function ProfileModal(props) {
                           width: '90px', height: '80px',
                           objectFit: "cover",
                           objectPosition: "50% 50%"
-                        }} src={item?.profilePicture || "https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
+                        }} src={item?.profilePicture || "https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"} />
                         {
                           loading && (
-                            <div class='mt-5 ml-6'>
+                            <div class='mt-5 ml-6 '>
                               <Loading color='secondary' />
                             </div>)
                         }
@@ -167,7 +167,7 @@ function ProfileModal(props) {
                       width: '90px', height: '80px',
                       objectFit: "cover",
                       objectPosition: "50% 50%"
-                    }} src={"https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
+                    }} src={"https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"} />
                     {
                       loading && (
                         <div class='mt-5 ml-6'>

@@ -31,7 +31,9 @@ function ContextProvider(props) {
   const [state, dispatch] = useReducer(checkAuthenByReducer, INITIAL_STATE)
   const [loading, setLoading] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
-  const provide = { state, dispatch, loading, setLoading, openDialog, setOpenDialog }
+  const [profile, setProfile] = useState()
+
+  const provide = { state, dispatch, loading, setLoading, openDialog, setOpenDialog, profile, setProfile }
 
   return (
     <myContext.Provider value={provide}>{props.children}</myContext.Provider>
