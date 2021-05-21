@@ -4,6 +4,7 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminMenu from "./pages/AdminMenu";
+
 function App() {
   const { state } = useMyContext();
 
