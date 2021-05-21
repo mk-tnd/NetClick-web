@@ -17,6 +17,7 @@ function ProfilePage() {
   async function getProfile() {
     const respond = await axios.get(`/profile`)
     const { data: { data } } = respond
+    console.log(respond)
     setProfile(data)
   }
 
@@ -29,9 +30,9 @@ function ProfilePage() {
 
     const { title, id, } = event.target
 
-
+    console.log(title, id)
     setOpen({ status: true, mode: title, id })
-
+    console.log(profile)
   };
   return (
     <div>
@@ -98,14 +99,15 @@ function ProfilePage() {
                       </div>
                     )
                   }
-                  <div>
-                    <ProfileModal profile={profile} getProfile={getProfile} item={item} open={open} setOpen={setOpen} />
-                  </div>
+
                 </div>
               )
             })
 
           }
+          <div>
+            <ProfileModal profile={profile} getProfile={getProfile} open={open} setOpen={setOpen} />
+          </div>
           {
             profile?.length < 4 && (
 

@@ -140,7 +140,7 @@ function ProfileModal(props) {
                         }
                       </div>
                       <div className='flex flex-col ml-3'>
-                        <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
+                        <Input onChange={(e) => handleTextChange(e)} value={input.profileName || ""} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
                         <Input onChange={(e) => handleFile(e)} type='file' class='text-gray-400 mt-2' />
                         <div className='mt-3'>
                           <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
@@ -156,38 +156,39 @@ function ProfileModal(props) {
                   )
                 })
               }
-              {
-                open.mode === 'Add Profile' && (
-                  <div className='flex ml-5 mr-5 mt-4 mb-5'>
-                    <div >
-                      <img style={{
-                        width: '90px', height: '80px',
-                        objectFit: "cover",
-                        objectPosition: "50% 50%"
-                      }} src={"https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
-                      {
-                        loading && (
-                          <div class='mt-5 ml-6'>
-                            <Loading color='secondary' />
-                          </div>)
-                      }
 
+            </div>
+            {
+              open.mode === 'Add Profile' && (
+                <div className='flex ml-5 mr-5 mt-4 mb-5'>
+                  <div >
+                    <img style={{
+                      width: '90px', height: '80px',
+                      objectFit: "cover",
+                      objectPosition: "50% 50%"
+                    }} src={"https://www.metalbridges.com/wp-content/uploads/2017/01/netflixcover.jpg"} />
+                    {
+                      loading && (
+                        <div class='mt-5 ml-6'>
+                          <Loading color='secondary' />
+                        </div>)
+                    }
+
+                  </div>
+                  <div className='flex flex-col ml-3'>
+                    <Input onChange={(e) => handleTextChange(e)} value={input.profileName || ""} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
+                    <Input onChange={(e) => handleFile(e)} type='file' class='text-gray-400 mt-2' />
+                    <div className='mt-3'>
+                      <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
                     </div>
-                    <div className='flex flex-col ml-3'>
-                      <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
-                      <Input onChange={(e) => handleFile(e)} type='file' class='text-gray-400 mt-2' />
-                      <div className='mt-3'>
-                        <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
-                      </div>
-                      <div className='mt-3'>
-                        <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-500 hover:text-white'>Record</button>
-                        <button onClick={cancelEdit} className='ml-4 mr-4 text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Cancel</button>
-                      </div>
+                    <div className='mt-3'>
+                      <button onClick={submitEdit} className='bg-white p-1 text-black hover:bg-red-500 hover:text-white'>Record</button>
+                      <button onClick={cancelEdit} className='ml-4 mr-4 text-gray-400 border-gray-400 p-1 border-solid border-2 hover:border-solid hover:border-2 hover:border-red-600 hover:text-red-600'>Cancel</button>
                     </div>
                   </div>
-                )
-              }
-            </div>
+                </div>
+              )
+            }
           </div>
 
         </Fade>
