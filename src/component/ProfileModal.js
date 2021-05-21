@@ -52,7 +52,8 @@ function ProfileModal(props) {
 
   function handleTextChange(event) {
     const { value, id } = event.target
-    setInput({ [id]: value })
+    setInput({ ...input, [id]: value })
+    console.log(input)
   }
   function handleFile(event) {
     const { files } = event.target
@@ -140,7 +141,7 @@ function ProfileModal(props) {
                         }
                       </div>
                       <div className='flex flex-col ml-3'>
-                        <Input onChange={(e) => handleTextChange(e)} value={input.profileName || ""} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
+                        <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
                         <Input onChange={(e) => handleFile(e)} type='file' class='text-gray-400 mt-2' />
                         <div className='mt-3'>
                           <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
@@ -176,7 +177,7 @@ function ProfileModal(props) {
 
                   </div>
                   <div className='flex flex-col ml-3'>
-                    <Input onChange={(e) => handleTextChange(e)} value={input.profileName || ""} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
+                    <Input onChange={(e) => handleTextChange(e)} value={input.profileName} id='profileName' style={{ backgroundColor: '#666', color: 'white' }} />
                     <Input onChange={(e) => handleFile(e)} type='file' class='text-gray-400 mt-2' />
                     <div className='mt-3'>
                       <SelectorFitnessLevel state={state} setState={setState} setInput={setInput} input={input} />
