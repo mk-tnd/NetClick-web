@@ -9,8 +9,7 @@ function AdminHome(props) {
   const { videos, setVideos } = useContext(VideoContext);
 
   const columns = [
-    { field: "thumbnail", headerName: "Thumbnail", width: 200 },
-    { field: "name", headerName: "name", width: 130 },
+    { field: "name", headerName: "name", width: 300 },
     { field: "vname", headerName: "source", width: 200 },
     {
       field: "description",
@@ -29,25 +28,26 @@ function AdminHome(props) {
     },
   ];
 
-  const rows = [
-    { id: 1, name: "Snow", vname: "Jon", description: 35, status: "" },
-    { id: 2, name: "Lannister", vname: "Cersei", description: 42 },
-    { id: 3, name: "Lannister", vname: "Jaime", description: 45 },
-    { id: 4, name: "Stark", vname: "Arya", description: 16 },
-  ];
-
   const fetchVideos = async () => {
     const res = await axios.get("/video");
-    setVideos(res.data.videos);
+    setVideos(res.data.data);
   };
 
   useEffect(() => {
     fetchVideos();
-    console.log(videos);
   }, []);
 
+  const rows = videos?.map((item) => ({
+    id: item.id,
+    name: item.name,
+    vname: item.vname,
+    description: item.description,
+    status: item.status,
+    category: item.Category.name,
+  }));
+
   return (
-    <div style={{ height: 700, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <DataGrid
         className="bg-white p-3"
         rows={rows}

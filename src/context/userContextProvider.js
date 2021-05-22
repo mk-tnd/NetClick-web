@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const UserContext = createContext();
 
 function UserContextProvider({ children }) {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [packageId, setPackageId] = useState("");
   const [packages, setPackages] = useState([]);
   return (

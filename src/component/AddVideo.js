@@ -62,8 +62,8 @@ function AddVideo(props) {
     const { name, vname, description } = content;
     const categoryId = cat.indexOf(category) + 1;
     e.preventDefault();
-    await axios.post("/video/register", {
-      thumbnailS: vname.split("=")[1],
+    await axios.post("/video/add", {
+      thumbnail: vname.split("=")[1],
       name,
       vname,
       description,
