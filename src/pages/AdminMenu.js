@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(12),
     height: theme.spacing(12),
+    margin: "auto",
   },
   modal: {
     display: "flex",
@@ -115,7 +116,7 @@ function AdminMenu(props) {
         color="secondary"
         className="flex justify-center p-2"
       >
-        me
+        {user.email}
       </Typography>
     </div>
   );
@@ -135,7 +136,7 @@ function AdminMenu(props) {
       try {
         const res = await axios.get(`/user/me`);
         console.log(res);
-        if (user) setUser(res.data.user);
+        if (user) setUser(res.data.data);
       } catch (err) {
         setError(err.response.data.message);
       }
