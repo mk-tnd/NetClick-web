@@ -2,12 +2,13 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Button from "@material-ui/core/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import "react-dropdown/style.css";
 import axios from "axios";
+import { VideoContext } from "../context/VideoContextProvider";
 
 function AddVideo(props) {
   const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,7 @@ function AddVideo(props) {
     description: "",
   });
   const [category, setCategory] = useState("");
+  const { setIsAdd } = useContext(VideoContext);
 
   const cat = [
     "Action",
@@ -58,7 +60,7 @@ function AddVideo(props) {
     setCategory(e.target.value);
   };
 
-  const handleAddPost = async (e) => {
+  const handleAddVideo = async (e) => {
     const { name, vname, description } = content;
     const categoryId = cat.indexOf(category) + 1;
     e.preventDefault();
@@ -70,6 +72,7 @@ function AddVideo(props) {
       categoryId,
     });
     props.setOpenModal(false);
+    setIsAdd(true);
     setContent({
       name: "",
       vname: "",
@@ -102,7 +105,7 @@ function AddVideo(props) {
               <h2 className="text-center">Add Video</h2>
               <div className="row">
                 <form
-                  onSubmit={handleAddPost}
+                  onSubmit={handleAddVideo}
                   className={classes.form}
                   noValidate
                 >
