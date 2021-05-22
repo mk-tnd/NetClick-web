@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,12 +8,18 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import { UserContext } from "../context/userContextProvider";
+import axios from "../config/axios";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import Container from "@material-ui/core/Container";
+import { VideoContext } from "../context/VideoContextProvider";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -57,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -83,9 +88,59 @@ function Home() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { user, setUser } = useContext(UserContext);
+  const [error, setError] = useState("");
+  const [category, setCategory] = useState([]);
+  const { videos, setVideos } = useContext(VideoContext);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const fetchVideos = async () => {
+    const res = await axios.get("/video");
+    setVideos(res.data.data);
+  };
+
+  const fetchCategory = async () => {
+    const res = await axios.get("/category");
+    setCategory(res.data.data);
+  };
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await axios.get(`/user/me`);
+        if (user) setUser(res.data.data);
+      } catch (err) {
+        setError(err.response.data.message);
+      }
+    };
+    getUser();
+    fetchVideos();
+    fetchCategory();
+  }, []);
+
+  const options = {
+    margin: 10,
+    responsiveClass: true,
+    nav: false,
+    dots: false,
+    autoplay: true,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      400: {
+        items: 2,
+      },
+      600: {
+        items: 3,
+      },
+      1000: {
+        items: 4,
+      },
+    },
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -116,7 +171,10 @@ function Home() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {user.role === "admin" ? (
+        <MenuItem onClick={handleMenuClose}>Admin</MenuItem>
+      ) : null}
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
@@ -165,14 +223,6 @@ function Home() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Material-UI
           </Typography>
@@ -191,20 +241,11 @@ function Home() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
+              className="focus:outline-none"
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
@@ -226,7 +267,26 @@ function Home() {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      {category.map((item) => (
+        <Container className="m-4">
+          <h1 className="text-white">
+            <b>{item.name}</b>
+          </h1>
+          <div className="m-3">
+            <OwlCarousel className="owl-theme" margin={10} {...options}>
+              {videos.map((item) => (
+                <div key={item.id} className="item">
+                  <img
+                    src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
+                    alt=""
+                  />
+                  <h5 className="text-white p-1">{item.name}</h5>
+                </div>
+              ))}
+            </OwlCarousel>
+          </div>
+        </Container>
+      ))}
     </div>
   );
 }
