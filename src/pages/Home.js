@@ -267,6 +267,7 @@ function Home() {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
+      {renderMenu}
       {category.map((item) => (
         <Container className="m-4">
           <h1 className="text-white">
