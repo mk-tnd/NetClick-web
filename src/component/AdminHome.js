@@ -30,10 +30,21 @@ function AdminHome(props) {
   ];
 
   const rows = [
-    { id: 1, name: "Snow", vname: "Jon", description: 35, status: "" },
-    { id: 2, name: "Lannister", vname: "Cersei", description: 42 },
-    { id: 3, name: "Lannister", vname: "Jaime", description: 45 },
-    { id: 4, name: "Stark", vname: "Arya", description: 16 },
+    {
+      id: 1,
+      thumbnail: "",
+      name: "Snow",
+      vname: "Jon",
+      description: 35,
+      status: "",
+    },
+    {
+      id: 2,
+      thumbnail: "",
+      name: "Lannister",
+      vname: "Cersei",
+      description: 42,
+    },
   ];
 
   const fetchVideos = async () => {

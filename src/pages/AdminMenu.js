@@ -15,6 +15,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddVideo from "../component/AddVideo";
 import { UserContext } from "../context/userContextProvider";
 import axios from "../config/axios";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 300;
 
@@ -83,6 +84,7 @@ function AdminMenu(props) {
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState("");
   const { user, setUser } = useContext(UserContext);
+  const history = useHistory();
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -121,6 +123,13 @@ function AdminMenu(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  // const checkAdmin = async () => {
+  //   if (user.role !== "admin") {
+  //     alert("you are not admin");
+  //     history.push("/");
+  //   }
+  // };
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -132,6 +141,8 @@ function AdminMenu(props) {
       }
     };
     getUser();
+    console.log(user);
+    // checkAdmin();
   }, []);
 
   return (
@@ -176,7 +187,7 @@ function AdminMenu(props) {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
