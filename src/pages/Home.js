@@ -20,6 +20,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import Container from "@material-ui/core/Container";
 import { VideoContext } from "../context/VideoContextProvider";
+import SingleVideo from "../component/SingleVideo";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -126,6 +127,7 @@ function Home() {
     nav: false,
     dots: false,
     autoplay: true,
+    loop: true,
     responsive: {
       0: {
         items: 1,
@@ -268,10 +270,13 @@ function Home() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <SingleVideo />
       {category.map((item) => (
         <Container className="m-4">
           <h1 className="text-white">
-            <b>{item.name}</b>
+            <Typography variant="h4" className="text-white">
+              <b>{item?.name}</b>
+            </Typography>
           </h1>
           <div className="m-3">
             <OwlCarousel className="owl-theme" margin={10} {...options}>
