@@ -84,7 +84,7 @@ function AdminMenu(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const history = useHistory();
 
   const handleOpenModal = () => {
@@ -124,27 +124,33 @@ function AdminMenu(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  // const checkAdmin = async () => {
-  //   if (user.role !== "admin") {
-  //     alert("you are not admin");
-  //     history.push("/");
-  //   }
-  // };
+  const checkAdmin = () => {
+    if (user.role === "admin") {
+      alert("you are not admin");
+      history.push("/");
+    }
+  };
+
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     try {
+  //       const res = await axios.get(`/user/me`);
+  //       console.log(res);
+  //       if (user) setUser(res.data.data);
+  //     } catch (err) {
+  //       setError(err.response.data.message);
+  //     }
+  //   };
+  //   getUser();
+  // }, []);
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await axios.get(`/user/me`);
-        console.log(res);
-        if (user) setUser(res.data.data);
-      } catch (err) {
-        setError(err.response.data.message);
-      }
-    };
-    getUser();
-    console.log(user);
-    // checkAdmin();
+    // setTimeout(() => {
+    //   checkAdmin();
+    // }, 1000);
   }, []);
+
+  console.log(user.role);
 
   return (
     <div className={classes.root}>

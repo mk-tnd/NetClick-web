@@ -6,7 +6,7 @@ import axios from "../config/axios";
 import { useEffect } from "react";
 
 function AdminHome(props) {
-  const { videos, setVideos } = useContext(VideoContext);
+  const { videos, setVideos, isAdd } = useContext(VideoContext);
 
   const columns = [
     { field: "name", headerName: "name", width: 300 },
@@ -35,7 +35,7 @@ function AdminHome(props) {
 
   useEffect(() => {
     fetchVideos();
-  }, []);
+  }, [isAdd]);
 
   const rows = videos?.map((item) => ({
     id: item.id,
