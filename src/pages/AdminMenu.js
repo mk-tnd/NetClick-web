@@ -14,7 +14,6 @@ import AdminHome from "../component/AdminHome";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddVideo from "../component/AddVideo";
 import { UserContext } from "../context/userContextProvider";
-import axios from "../config/axios";
 import { useHistory } from "react-router-dom";
 
 const drawerWidth = 300;
@@ -83,7 +82,6 @@ function AdminMenu(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [error, setError] = useState("");
   const { user } = useContext(UserContext);
   const history = useHistory();
 
@@ -125,29 +123,14 @@ function AdminMenu(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   const checkAdmin = () => {
-    if (user.role === "admin") {
+    if (user?.role !== "admin") {
       alert("you are not admin");
       history.push("/");
     }
   };
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       const res = await axios.get(`/user/me`);
-  //       console.log(res);
-  //       if (user) setUser(res.data.data);
-  //     } catch (err) {
-  //       setError(err.response.data.message);
-  //     }
-  //   };
-  //   getUser();
-  // }, []);
-
   useEffect(() => {
-    // setTimeout(() => {
-    //   checkAdmin();
-    // }, 1000);
+    checkAdmin();
   }, []);
 
   console.log(user.role);

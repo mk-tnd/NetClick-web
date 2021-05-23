@@ -4,6 +4,7 @@ export const VideoContext = createContext();
 
 function VideoContextProvider({ children }) {
   const [videos, setVideos] = useState([]);
+  const [vid, setVid] = useState("");
   const [isAdd, setIsAdd] = useState(false);
   return (
     <VideoContext.Provider
@@ -12,6 +13,8 @@ function VideoContextProvider({ children }) {
         setVideos,
         isAdd,
         setIsAdd,
+        vid,
+        setVid,
       }}
     >
       {children}

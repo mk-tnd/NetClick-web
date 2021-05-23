@@ -21,6 +21,7 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import Container from "@material-ui/core/Container";
 import { VideoContext } from "../context/VideoContextProvider";
 import SingleVideo from "../component/SingleVideo";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,12 +94,14 @@ function Home() {
   const [error, setError] = useState("");
   const [category, setCategory] = useState([]);
   const { videos, setVideos } = useContext(VideoContext);
+  const { setVid } = useContext(VideoContext);
+  const history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const fetchVideos = async () => {
-    const res = await axios.get("/video");
+    const res = await axios.get(`/video`);
     setVideos(res.data.data);
   };
 
@@ -127,7 +130,6 @@ function Home() {
     nav: false,
     dots: false,
     autoplay: true,
-    loop: true,
     responsive: {
       0: {
         items: 1,
@@ -139,20 +141,22 @@ function Home() {
         items: 3,
       },
       1000: {
-        items: 4,
+        items: 5,
       },
     },
   };
 
   const handleProfileMenuOpen = (event) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
+  const handleMobileMenuClose = (e) => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (e) => {
+    e.preventDefault();
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -160,6 +164,13 @@ function Home() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleSingleVideo = (id) => {
+    setVid(id);
+    history.push("/video");
+  };
+
+  const handleLogout = () => {};
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -174,9 +185,9 @@ function Home() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       {user.role === "admin" ? (
-        <MenuItem onClick={handleMenuClose}>Admin</MenuItem>
+        <MenuItem onClick={() => history.push("/admin")}>Admin</MenuItem>
       ) : null}
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -190,35 +201,7 @@ function Home() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
+    ></Menu>
   );
 
   return (
@@ -271,24 +254,28 @@ function Home() {
       {renderMobileMenu}
       {renderMenu}
       <SingleVideo />
-      {category.map((item) => (
-        <Container className="m-4">
-          <h1 className="text-white">
-            <Typography variant="h4" className="text-white">
-              <b>{item?.name}</b>
-            </Typography>
-          </h1>
+      {category.map((val) => (
+        <Container key={val.id} className="m-4">
+          <Typography variant="h4" className="text-white">
+            <b>{val?.name}</b>
+          </Typography>
           <div className="m-3">
             <OwlCarousel className="owl-theme" margin={10} {...options}>
-              {videos.map((item) => (
-                <div key={item.id} className="item">
-                  <img
-                    src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
-                    alt=""
-                  />
-                  <h5 className="text-white p-1">{item.name}</h5>
-                </div>
-              ))}
+              {videos
+                .filter((item) => val.id === item.categoryId)
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => handleSingleVideo(item.id)}
+                    className="item"
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
+                      alt=""
+                    />
+                    <h5 className="text-white p-1">{item.name}</h5>
+                  </div>
+                ))}
             </OwlCarousel>
           </div>
         </Container>
