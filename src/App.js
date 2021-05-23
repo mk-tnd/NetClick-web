@@ -4,15 +4,10 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminMenu from "./pages/AdminMenu";
-import testPage from "./pages/testPage";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "./context/userContextProvider";
-import axios from "axios";
 import Home from "./pages/Home";
+import SingleVideoModal from "./component/SingleVideoModal";
 function App() {
   const { state } = useMyContext();
-  const { user, setUser } = useContext(UserContext);
-  const [error, setError] = useState();
 
   const privateRoutes = [
     {
@@ -27,6 +22,10 @@ function App() {
       path: "/profile",
       component: ProfilePage,
     },
+    {
+      path: "/video",
+      component: SingleVideoModal,
+    },
   ];
 
   const publicRoutes = [
@@ -37,10 +36,6 @@ function App() {
     {
       path: "/register",
       component: RegisterPage,
-    },
-    {
-      path: "/test",
-      component: testPage,
     },
   ];
 
