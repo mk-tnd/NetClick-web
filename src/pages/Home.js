@@ -212,8 +212,8 @@ function Home() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+          <Typography className={classes.title} color='secondary' variant="h6" noWrap>
+            NetClick
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
