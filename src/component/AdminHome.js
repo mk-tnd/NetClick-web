@@ -48,7 +48,7 @@ function AdminHome(props) {
   }));
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: "450px", width: "100%" }}>
       <DataGrid
         className="bg-white p-3"
         rows={rows}

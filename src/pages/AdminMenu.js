@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     backgroundColor: "black",
+    justifyContent: "flex-end",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -139,15 +140,23 @@ function AdminMenu(props) {
     checkAdmin();
   }, []);
 
-  console.log(user);
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" color="secondary" className={classes.title}>
-            NetClick
-          </Typography>
+          <div
+            className="absolute w-full overflow-hidden"
+            style={{ height: "70px", paddingLeft: "20px" }}
+          >
+            <img
+              style={{
+                width: "150px",
+                margin: "-30px 0 -20px 0px",
+              }}
+              src="https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"
+              alt=""
+            />
+          </div>
           <div>
             <IconButton
               onClick={handleOpenModal}

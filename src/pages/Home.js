@@ -212,10 +212,20 @@ function Home() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} color='secondary' variant="h6" noWrap>
-            NetClick
-          </Typography>
-          <div className={classes.search}>
+          <div
+            className="absolute w-full overflow-hidden"
+            style={{ height: "70px" }}
+          >
+            <img
+              style={{
+                width: "150px",
+                margin: "-30px 0 -20px 0px",
+              }}
+              src="https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"
+              alt=""
+            />
+          </div>
+          <div className={classes.search} style={{ marginLeft: "200px" }}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
