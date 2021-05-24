@@ -45,7 +45,6 @@ function AdminHome(props) {
     description: item.description,
     status: item.status,
     category: item.Category.name,
-    option: <Button>1</Button>,
   }));
 
   return (
