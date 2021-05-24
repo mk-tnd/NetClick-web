@@ -1,14 +1,18 @@
-import React from 'react'
+import React from "react";
 
 function Head() {
   return (
-
-    <div className="text-red-500 h-1/10 text-3xl pt-6 pl-8 font-medium italic " >
-      <h1>NETCLICK</h1>
+    <div className="absolute w-full overflow-hidden" style={{ height: "63px" }}>
+      <img
+        style={{
+          width: "150px",
+          margin: "-35px 0 -20px 0px",
+        }}
+        src="https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"
+        alt=""
+      />
     </div>
-
-
-  )
+  );
 }
 
-export default Head
+export default Head;

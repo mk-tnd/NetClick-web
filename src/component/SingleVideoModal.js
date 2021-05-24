@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "../config/axios";
 import Iframe from "react-iframe";
 import { VideoContext } from "../context/VideoContextProvider";
+import { UserContext } from "../context/userContextProvider";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -21,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 function SingleVideoModal() {
   const [video, setVideo] = useState();
   const { vid } = useContext(VideoContext);
+  const { user } = useContext(UserContext);
+  const resolution = user.package?.Package.resolutions;
   async function getSingleVideo() {
     const res = await axios.get(`/video/single/${vid}`);
     const {
@@ -28,6 +31,26 @@ function SingleVideoModal() {
     } = res;
     setVideo(data);
   }
+
+  const option = {
+    "480p": {
+      width: "60%",
+      height: "500px",
+    },
+    "720p": {
+      width: "70%",
+      height: "700px",
+    },
+    "1080p": {
+      width: "80%",
+      height: "900px",
+    },
+    "1440p": {
+      width: "100%",
+      height: "100%",
+      allow: "fullscreen",
+    },
+  };
 
   useEffect(() => {
     getSingleVideo();
@@ -42,6 +65,7 @@ function SingleVideoModal() {
           </h2>
         </div>
         <div
+          className="flex justify-center"
           style={{
             width: "100%",
             height: "100%",
@@ -50,10 +74,8 @@ function SingleVideoModal() {
           }}
         >
           <Iframe
+            {...option[resolution]}
             url={`https://www.youtube.com/embed/${video?.thumbnail}`}
-            allowFullScreen
-            width="100%"
-            height="800px"
           />
         </div>
         <div className="ml-5 mr-5 mb-5 mt-5">
