@@ -22,6 +22,7 @@ import Container from "@material-ui/core/Container";
 import { VideoContext } from "../context/VideoContextProvider";
 import SingleVideo from "../component/SingleVideo";
 import { useHistory } from "react-router-dom";
+import { useMyContext } from "../context/MyContext";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -96,6 +97,7 @@ function Home() {
   const { videos, setVideos } = useContext(VideoContext);
   const { setVid } = useContext(VideoContext);
   const history = useHistory();
+  const { dispatch } = useMyContext();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -170,7 +172,9 @@ function Home() {
     history.push("/video");
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch({ type: "clearToken" });
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -183,7 +187,7 @@ function Home() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={() => history.push("/profile")}>Profile</MenuItem>
       {user.role === "admin" ? (
         <MenuItem onClick={() => history.push("/admin")}>Admin</MenuItem>
       ) : null}
