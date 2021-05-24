@@ -5,13 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { UserContext } from "../context/userContextProvider";
 import axios from "../config/axios";
@@ -23,6 +19,8 @@ import { VideoContext } from "../context/VideoContextProvider";
 import SingleVideo from "../component/SingleVideo";
 import { useHistory } from "react-router-dom";
 import { useMyContext } from "../context/MyContext";
+import Avatar from "@material-ui/core/Avatar";
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -91,10 +89,12 @@ function Home() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, profileId } = useContext(UserContext);
   const [error, setError] = useState("");
   const [category, setCategory] = useState([]);
+  const [search, setSearch] = useState("");
   const { videos, setVideos } = useContext(VideoContext);
+  const [rVideos, setRVideo] = useState([]);
   const { setVid } = useContext(VideoContext);
   const history = useHistory();
   const { dispatch } = useMyContext();
@@ -115,7 +115,7 @@ function Home() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`/user/me`);
+        const res = await axios.get(`/user/me/${profileId}`);
         if (user) setUser(res.data.data);
       } catch (err) {
         setError(err.response.data.message);
@@ -172,6 +172,12 @@ function Home() {
     history.push("/video");
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    setRVideo(videos.filter((item) => item.name.includes(search)));
+  };
+
   const handleLogout = () => {
     dispatch({ type: "clearToken" });
   };
@@ -188,7 +194,7 @@ function Home() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => history.push("/profile")}>Profile</MenuItem>
-      {user.role === "admin" ? (
+      {user?.role === "admin" ? (
         <MenuItem onClick={() => history.push("/admin")}>Admin</MenuItem>
       ) : null}
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -208,18 +214,21 @@ function Home() {
     ></Menu>
   );
 
+  console.log(user);
+  console.log(rVideos);
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <div
             className="absolute w-full overflow-hidden"
-            style={{ height: "70px" }}
+            style={{ height: "63px" }}
           >
             <img
               style={{
                 width: "150px",
-                margin: "-30px 0 -20px 0px",
+                margin: "-35px 0 -20px 0px",
               }}
               src="https://res.cloudinary.com/dyfaqbpys/image/upload/v1621586565/h4fyyyo736zdnje86gnr.jpg"
               alt=""
@@ -236,7 +245,15 @@ function Home() {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              value={search}
+              onChange={handleSearch}
             />
+            {search && (
+              <CloseIcon
+                onClick={() => setSearch("")}
+                className="relative right-1 cursor-pointer"
+              />
+            )}
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -249,7 +266,14 @@ function Home() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={user.profile?.profilePicture} />
+              <Typography
+                style={{ paddingLeft: "10px" }}
+                variant="h6"
+                className="text-white"
+              >
+                {user.profile?.profileName}
+              </Typography>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -267,33 +291,60 @@ function Home() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <SingleVideo />
-      {category.map((val) => (
-        <Container key={val.id} className="m-4">
+      {search ? (
+        <Container className="m-4">
           <Typography variant="h4" className="text-white">
-            <b>{val?.name}</b>
+            <b>result of "{search}"</b>
           </Typography>
           <div className="m-3">
             <OwlCarousel className="owl-theme" margin={10} {...options}>
-              {videos
-                .filter((item) => val.id === item.categoryId)
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    onClick={() => handleSingleVideo(item.id)}
-                    className="item"
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
-                      alt=""
-                    />
-                    <h5 className="text-white p-1">{item.name}</h5>
-                  </div>
-                ))}
+              {rVideos.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleSingleVideo(item.id)}
+                  className="item"
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
+                    alt=""
+                  />
+                  <h5 className="text-white p-1">{item.name}</h5>
+                </div>
+              ))}
             </OwlCarousel>
           </div>
         </Container>
-      ))}
+      ) : (
+        <>
+          <SingleVideo />
+          {category.map((val) => (
+            <Container key={val.id} className="m-4">
+              <Typography variant="h4" className="text-white">
+                <b>{val?.name}</b>
+              </Typography>
+              <div className="m-3">
+                <OwlCarousel className="owl-theme" margin={10} {...options}>
+                  {videos
+                    .filter((item) => val.id === item.categoryId)
+                    .map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleSingleVideo(item.id)}
+                        className="item"
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${item.thumbnail}/hqdefault.jpg`}
+                          alt=""
+                        />
+                        <h5 className="text-white p-1">{item.name}</h5>
+                      </div>
+                    ))}
+                </OwlCarousel>
+              </div>
+            </Container>
+          ))}
+        </>
+      )}
     </div>
   );
 }

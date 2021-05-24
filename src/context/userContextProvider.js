@@ -6,6 +6,7 @@ function UserContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [packageId, setPackageId] = useState("");
   const [packages, setPackages] = useState([]);
+  const [profileId, setProfileId] = useState("");
   return (
     <UserContext.Provider
       value={{
@@ -15,6 +16,8 @@ function UserContextProvider({ children }) {
         setPackages,
         packageId,
         setPackageId,
+        profileId,
+        setProfileId,
       }}
     >
       {children}

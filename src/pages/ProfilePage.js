@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "../config/axios";
 import Fade from "@material-ui/core/Fade";
 import ProfileModal from "../component/ProfileModal";
 import Head from "../component/Head";
 import { useMyContext } from "../context/MyContext";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../context/userContextProvider";
 function ProfilePage() {
   const [open, setOpen] = useState({
     status: false,
@@ -12,6 +13,7 @@ function ProfilePage() {
     id: "",
   });
   const { profile, setProfile } = useMyContext();
+  const { setProfileId } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
   const history = useHistory();
 
@@ -27,6 +29,11 @@ function ProfilePage() {
   useEffect(async () => {
     getProfile();
   }, []);
+
+  const handleGoHome = (id) => {
+    setProfileId(id);
+    history.push("/");
+  };
 
   const handleOpen = (event) => {
     const { title, id } = event.target;
@@ -110,7 +117,7 @@ function ProfilePage() {
                 ) : (
                   <div
                     className="cursor-pointer"
-                    onClick={() => history.push("/")}
+                    onClick={() => handleGoHome(item.id)}
                   >
                     <img
                       style={{

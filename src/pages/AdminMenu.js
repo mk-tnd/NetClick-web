@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     backgroundColor: "black",
-    justifyContent: "flex-end",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -108,8 +107,8 @@ function AdminMenu(props) {
     <div>
       <div className={classes.toolbar} />
       <Avatar
-        alt={user.profile[0].profileName}
-        src={user.profile[0].profilePicture}
+        alt={user?.profile.profileName}
+        src={user?.profile.profilePicture}
         className={classes.large}
       />
       <Typography
@@ -117,7 +116,7 @@ function AdminMenu(props) {
         color="secondary"
         className="flex justify-center p-2"
       >
-        {user.profile[0].profileName}
+        {user?.profile.profileName}
       </Typography>
     </div>
   );
@@ -143,7 +142,7 @@ function AdminMenu(props) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className="flex justify-end">
           <div
             className="absolute w-full overflow-hidden"
             style={{ height: "70px", paddingLeft: "20px" }}
@@ -174,7 +173,14 @@ function AdminMenu(props) {
               onClick={handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={user?.profile.profilePicture} />
+              <Typography
+                style={{ paddingLeft: "10px" }}
+                variant="h6"
+                className="text-white"
+              >
+                {user?.profile.profileName}
+              </Typography>
             </IconButton>
             <Menu
               id="menu-appbar"
