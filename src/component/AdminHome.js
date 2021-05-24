@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { VideoContext } from "../context/VideoContextProvider";
 import axios from "../config/axios";
 import { useEffect } from "react";
+import Button from "@material-ui/core/Button";
 
 function AdminHome(props) {
   const { videos, setVideos, isAdd } = useContext(VideoContext);
@@ -44,6 +45,7 @@ function AdminHome(props) {
     description: item.description,
     status: item.status,
     category: item.Category.name,
+    option: <Button>1</Button>,
   }));
 
   return (

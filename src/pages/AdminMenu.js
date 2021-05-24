@@ -15,6 +15,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddVideo from "../component/AddVideo";
 import { UserContext } from "../context/userContextProvider";
 import { useHistory } from "react-router-dom";
+import { useMyContext } from "../context/MyContext";
 
 const drawerWidth = 300;
 
@@ -83,6 +84,7 @@ function AdminMenu(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const { user } = useContext(UserContext);
+  const { dispatch } = useMyContext();
   const history = useHistory();
 
   const handleOpenModal = () => {
@@ -105,8 +107,8 @@ function AdminMenu(props) {
     <div>
       <div className={classes.toolbar} />
       <Avatar
-        alt="Cindy Baker"
-        src="/static/images/avatar/3.jpg"
+        alt={user.profile[0].profileName}
+        src={user.profile[0].profilePicture}
         className={classes.large}
       />
       <Typography
@@ -114,7 +116,7 @@ function AdminMenu(props) {
         color="secondary"
         className="flex justify-center p-2"
       >
-        {user.email}
+        {user.profile[0].profileName}
       </Typography>
     </div>
   );
@@ -129,11 +131,15 @@ function AdminMenu(props) {
     }
   };
 
+  const handleLogout = () => {
+    dispatch({ type: "clearToken" });
+  };
+
   useEffect(() => {
     checkAdmin();
   }, []);
 
-  console.log(user.role);
+  console.log(user);
 
   return (
     <div className={classes.root}>
@@ -176,8 +182,8 @@ function AdminMenu(props) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={() => history.push("/")}>Main Page</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
